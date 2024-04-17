@@ -6,23 +6,26 @@ import org.jgroups.Message;
 import javax.swing.*;
 
 public class ChatOperations {
-    private JChannel channel;
+    private JChannel channel = new JChannel();
 
-    public ChatOperations(String ipAddress) throws Exception {
+    public ChatOperations() throws Exception {
+/*
         System.setProperty("jgroups.bind_addr", ipAddress);
-        channel = new JChannel();
+        Util.checkIfValidAddress(InetAddress.getByName(ipAddress), "UDP");
+        UDP udp = new UDP();
+        udp.setBindAddress(InetAddress.getByName(ipAddress));
+        channel = new JChannel(udp);
+*/
         channel.connect("Chat");
     }
 
     public void sendMessage(String msg) throws Exception {
         channel.send(new Message(null, msg.getBytes()));
-        System.out.println("Sending Successful");
     }
 
     public void receiveMessage(JTextArea receiver) {
         channel.receiver(r -> {
-            receiver.setText(receiver.getText() + "Received: " + new String(r.rawBuffer()) + "\n");
-            System.out.println("Receiving successful");
+            receiver.setText(receiver.getText() + r.getSrc().toString() + ": " + new String(r.rawBuffer()) + "\n");
         });
     }
 

@@ -11,7 +11,11 @@ public class ChatFrame extends javax.swing.JFrame {
      * Creates new form DemoFrame
      */
     public ChatFrame() {
-        initComponents();
+        try {
+            initComponents();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -21,7 +25,7 @@ public class ChatFrame extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents() throws Exception {
 
         ipLabel = new javax.swing.JLabel();
         channelLabel = new javax.swing.JLabel();
@@ -78,6 +82,9 @@ public class ChatFrame extends javax.swing.JFrame {
         msgTextArea.setText("");
         msgTextArea.setWrapStyleWord(true);
         chatScrollPane.setViewportView(msgTextArea);
+        chatOperations = new ChatOperations();
+        msgTextArea.setText(msgTextArea.getText() + "Connected\n");
+        chatOperations.receiveMessage(msgTextArea);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -86,6 +93,7 @@ public class ChatFrame extends javax.swing.JFrame {
                         .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+/*
                                         .addComponent(ipLabel)
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                                 .addGap(0, 0, Short.MAX_VALUE))
@@ -101,6 +109,7 @@ public class ChatFrame extends javax.swing.JFrame {
                                         .addComponent(connectButton)
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                                 .addGap(0, 0, Short.MAX_VALUE))
+*/
                                         .addComponent(msgLabel)
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                                 .addGap(0, 0, Short.MAX_VALUE))
@@ -120,6 +129,7 @@ public class ChatFrame extends javax.swing.JFrame {
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addContainerGap()
+/*
                                 .addComponent(ipLabel)
                                 .addComponent(ipTextField)
                                 .addGap(16, 16, 16)
@@ -128,6 +138,7 @@ public class ChatFrame extends javax.swing.JFrame {
                                 .addGap(16, 16, 16)
                                 .addComponent(connectButton)
                                 .addGap(16, 16, 16)
+*/
                                 .addComponent(msgLabel)
                                 .addComponent(msgTextField)
                                 .addGap(16, 16, 16)
@@ -143,14 +154,10 @@ public class ChatFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void connectButtonActionPerformed(ActionEvent e) throws Exception {
-        chatOperations = new ChatOperations(ipTextField.getText());
-        msgTextArea.setText(msgTextArea.getText() + "Connected\n");
-        chatOperations.receiveMessage(msgTextArea);
     }
 
     private void sendButtonActionPerformed(ActionEvent e) throws Exception {
         chatOperations.sendMessage(msgTextField.getText());
-        msgTextArea.setText(msgTextArea.getText() + "Me: " + msgTextField.getText() + "\n");
     }
 
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
